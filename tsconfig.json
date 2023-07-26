@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "resolveJsonModule":true,
+    "strict": false,
+    "target": "ESNext",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "outDir": "../tests-out",
+    "baseUrl": "./", // This must be specified if "paths" is.
+    "paths": {
+      "@myhelper/*": ["utils/*"] // This mapping is relative to "baseUrl".
+    }
+  }
+}

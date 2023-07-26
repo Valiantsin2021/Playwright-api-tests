@@ -1,0 +1,42 @@
+{
+  "name": "api-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run code:check && npm run lint && npx playwright test",
+    "lint": "npx eslint ./tests/*.{js,jsx,ts,tsx} --fix",
+    "format": "prettier --write .",
+    "posttest": "allure generate allure-results -o allure-report --clean",
+    "code:check": "tsc --noEmit"
+  },
+  "precommit": [
+    "code:check",
+    "format",
+    "lint"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@playwright/test": "^1.36.2",
+    "@typescript-eslint/eslint-plugin": "6.2.0",
+    "@typescript-eslint/parser": "6.2.0",
+    "allure-commandline": "2.23.1",
+    "allure-playwright": "2.4.0",
+    "chai": "^4.3.7",
+    "dotenv": "^16.3.1",
+    "eslint": "8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-playwright": "0.15.3",
+    "eslint-plugin-prettier": "5.0.0",
+    "odottaa": "^1.1.15",
+    "pre-commit": "^1.2.2",
+    "prettier": "3.0.0",
+    "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "chai-json-schema": "^1.5.1"
+  }
+}
