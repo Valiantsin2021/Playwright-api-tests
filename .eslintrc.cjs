@@ -26,6 +26,8 @@ module.exports = {
         tabWidth: 2
       }
     ],
+    'playwright/expect-expect': 'warn',
+    'playwright/no-focused-test': 'warn',
     '@typescript-eslint/no-var-requires': 'warn',
     'no-console': 'off',
     'no-useless-escape': 'off',
