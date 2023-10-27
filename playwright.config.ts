@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test'
 import 'dotenv/config'
 export default defineConfig({
+  timeout: 120_000,
   testDir: './tests',
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
@@ -23,7 +24,7 @@ export default defineConfig({
     baseURL: process.env.URL,
     ignoreHTTPSErrors: true,
     extraHTTPHeaders: {
-      'cookie': `${process.env.COOKIES}`,
+      cookie: `${process.env.COOKIES}`
     },
     trace: 'on-first-retry'
   },

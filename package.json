@@ -3,18 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "npm run code:check && npm run lint && npx playwright test",
     "lint": "npx eslint ./tests/*.{js,jsx,ts,tsx} --fix",
     "format": "prettier --write .",
     "posttest": "allure generate allure-results -o allure-report --clean",
-    "code:check": "tsc --noEmit"
+    "code:check": "tsc --noEmit",
+    "prepare": "husky install"
   },
-  "precommit": [
-    "code:check",
-    "format",
-    "lint"
-  ],
+  "lint-staged": {
+    "**/*.+(cjs|js|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "**/*.+(cjs|js|ts|json)": [
+      "prettier --write"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -31,8 +36,10 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-playwright": "0.15.3",
     "eslint-plugin-prettier": "5.0.0",
+    "genson-js": "^0.0.8",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.2",
     "odottaa": "^1.1.15",
-    "pre-commit": "^1.2.2",
     "prettier": "3.0.0",
     "typescript": "5.1.6"
   },

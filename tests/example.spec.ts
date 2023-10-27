@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { isValidDate } from '@myhelper/date'
 import { createRandomBookingBody } from '@myhelper/helper'
-import schema from '@myhelper/schema.json'
+import schema from '@myhelper/schema.json' assert { type: 'json' }
 import playwrightApiMatchers from 'odottaa'
 expect.extend(playwrightApiMatchers)
 import chai from 'chai'
@@ -9,9 +9,24 @@ import { expect as chaiExpect } from 'chai'
 import chaiJsonSchema from 'chai-json-schema'
 chai.use(chaiJsonSchema)
 let bookingId
-test('get booking summary with specific room ID', async ({ request }) => {
+test(`log errors from console`, async ({ page }) => {
+  const messages = []
+  page.on('pageerror', exception => {
+    console.log(`Uncaught exception: "${exception}"`)
+  })
+  page.on('console', async m => {
+    messages.push({ [m.type()]: m.text() })
+    await expect.soft(m.type()).not.toEqual('error')
+  })
+  await page.goto('https://academybugs.com/')
+  console.table(messages)
+})
+test('get booking summary with specific room ID', async ({ request }, testInfo) => {
+  console.log(testInfo.config)
   const response = await request.get('/booking/summary?roomid=1')
+
   expect(response).toHaveStatusCode(200)
+
   const body = await response.json()
   expect(body.bookings.length).toBeGreaterThanOrEqual(1)
   expect(isValidDate(body.bookings[0].bookingDates.checkin)).toBeTruthy()
@@ -42,6 +57,7 @@ test('GET all bookings with details', async ({ request }) => {
   const response = await request.get('booking/')
 
   expect(response.status()).toBe(200)
+
   const body = await response.json()
   expect(body.bookings.length).toBeGreaterThanOrEqual(1)
   expect(body.bookings[0].bookingid).toBe(1)
@@ -56,6 +72,7 @@ test('GET booking by id with details', async ({ request }) => {
   const response = await request.get('booking/1')
 
   expect(response.status()).toBe(200)
+
   const body = await response.json()
   expect(body.bookingid).toBe(1)
   expect(body.roomid).toBe(1)
@@ -75,19 +92,20 @@ test('GET all bookings with details with no authentication', async ({ request })
   const body = await response.text()
   expect(body).toBe('')
 })
-test.only(`create the booking reservation`, async ({ request }) => {
+test(`create the booking reservation`, async ({ request }) => {
   const reqBody = await createRandomBookingBody(10, '2023-08-24', '2023-09-24')
   const response = await request.post('booking/', {
     data: reqBody
   })
   expect(response).toBeCreated()
+
   const body = await response.json()
   expect(body.booking.firstname).toBe(reqBody.firstname)
   expect(body.booking.lastname).toBe(reqBody.lastname)
   expect(body.booking.bookingdates).toStrictEqual(reqBody.bookingdates)
   bookingId = body.bookingid
 })
-test.skip("DELETE booking with an id that doesn't exist", async ({ request }) => {
+test("DELETE booking with an id that doesn't exist", async ({ request }) => {
   const response = await request.delete(`booking/${bookingId}`)
 
   expect(response).toHaveStatusCode(202)
