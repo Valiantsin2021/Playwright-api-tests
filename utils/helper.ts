@@ -2,11 +2,20 @@ import { expect, request } from '@playwright/test'
 import { stringDateByDays } from './date'
 import { faker } from '@faker-js/faker'
 import { createHeaders } from './createHeaders'
+import * as fs from 'fs'
 
 const url = process.env.URL || 'https://automationintesting.online/'
 let bookingBody
 let checkOutArray
 
+export const warningsFile = './warnings.log'
+export async function addWarning(warning: string, warningsFileToUse = warningsFile) {
+  fs.appendFile(warningsFileToUse, 'WARNING: ' + warning + '\n', err => {
+    if (err) {
+      console.error(err)
+    }
+  })
+}
 export async function createRandomBookingBody(roomId: number, checkInString: string, checkOutString: string) {
   const bookingBody = {
     roomid: roomId,

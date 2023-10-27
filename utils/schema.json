@@ -1,82 +1,30 @@
 {
   "type": "object",
+  "required": ["bookings"],
+  "additionalProperties": true,
   "properties": {
     "bookings": {
       "type": "array",
-      "items": [
-        {
-          "type": "object",
-          "properties": {
-            "bookingDates": {
-              "type": "object",
-              "properties": {
-                "checkin": {
-                  "type": "string"
-                },
-                "checkout": {
-                  "type": "string"
-                }
+      "items": {
+        "type": "object",
+        "required": ["bookingDates"],
+        "additionalProperties": true,
+        "properties": {
+          "bookingDates": {
+            "type": "object",
+            "required": ["checkin", "checkout"],
+            "additionalProperties": true,
+            "properties": {
+              "checkin": {
+                "type": "string"
               },
-              "required": [
-                "checkin",
-                "checkout"
-              ]
+              "checkout": {
+                "type": "string"
+              }
             }
-          },
-          "required": [
-            "bookingDates"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "bookingDates": {
-              "type": "object",
-              "properties": {
-                "checkin": {
-                  "type": "string"
-                },
-                "checkout": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "checkin",
-                "checkout"
-              ]
-            }
-          },
-          "required": [
-            "bookingDates"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "bookingDates": {
-              "type": "object",
-              "properties": {
-                "checkin": {
-                  "type": "string"
-                },
-                "checkout": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "checkin",
-                "checkout"
-              ]
-            }
-          },
-          "required": [
-            "bookingDates"
-          ]
+          }
         }
-      ]
+      }
     }
-  },
-  "required": [
-    "bookings"
-  ]
+  }
 }

@@ -27,8 +27,10 @@ module.exports = {
         tabWidth: 2
       }
     ],
-    '@typescript-eslint/ban-ts-comment': 'warn',
+    'playwright/expect-expect': 'warn',
+    'playwright/no-focused-test': 'warn',
     '@typescript-eslint/no-var-requires': 'warn',
+    '@typescript-eslint/no-unused-vars': 'warn',
     'playwright/no-conditional-in-test': 'off',
     'no-console': 'off',
     'no-useless-escape': 'off',

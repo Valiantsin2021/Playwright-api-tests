@@ -1,12 +1,13 @@
 import { test, expect } from '@playwright/test'
 import { isValidDate } from '@myhelper/date'
-import { createRandomBookingBody } from '@myhelper/helper'
+import { addWarning, createRandomBookingBody } from '@myhelper/helper'
 import schema from '@myhelper/schema.json' assert { type: 'json' }
 import playwrightApiMatchers from 'odottaa'
 expect.extend(playwrightApiMatchers)
 import chai from 'chai'
 import { expect as chaiExpect } from 'chai'
 import chaiJsonSchema from 'chai-json-schema'
+import { z } from 'zod'
 chai.use(chaiJsonSchema)
 let bookingId
 test(`log errors from console`, async ({ page }) => {
@@ -31,7 +32,15 @@ test('get booking summary with specific room ID', async ({ request }, testInfo) 
   expect(body.bookings.length).toBeGreaterThanOrEqual(1)
   expect(isValidDate(body.bookings[0].bookingDates.checkin)).toBeTruthy()
   expect(isValidDate(body.bookings[0].bookingDates.checkout)).toBeTruthy()
+  // method with chaiJsonSchema is easier to use
   chaiExpect(body).to.be.jsonSchema(schema)
+
+  // method with use of zod is not so convinient
+  const schemaX = z.object({
+    bookings: z.string()
+  })
+  // await expect.soft(schemaX.parse(body)).toThrow()
+  console.log(JSON.stringify(body))
 })
 test("GET booking summary with specific room id that doesn't exist", async ({ request }) => {
   const response = await request.get('booking/summary?roomid=999999')
