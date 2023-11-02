@@ -18,6 +18,9 @@
     ],
     "**/*.+(cjs|js|ts|json)": [
       "prettier --write"
+    ],
+    "**/*.+(ts)": [
+      "tsc --noEmit"
     ]
   },
   "keywords": [],
