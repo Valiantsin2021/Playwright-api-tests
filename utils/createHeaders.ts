@@ -1,8 +1,7 @@
 import { createCookies } from './auth'
 
-let username = process.env.ADMIN_NAME
-let password = process.env.ADMIN_PASSWORD
-
+const username = process.env.ADMIN_NAME!
+const password = process.env.ADMIN_PASSWORD!
 /**
  * 
  * @param token a valid token to be used in the request if one is not provided cookies will be created from default username and password

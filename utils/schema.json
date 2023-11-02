@@ -1,37 +1,30 @@
 {
   "type": "object",
-  "required": [
-      "bookings"
-  ],
+  "required": ["bookings"],
   "additionalProperties": true,
   "properties": {
-      "bookings": {
-          "type": "array",
-          "items": {
-              "type": "object",
-              "required": [
-                  "bookingDates"
-              ],
-              "additionalProperties": true,
-              "properties": {
-                  "bookingDates": {
-                      "type": "object",
-                      "required": [
-                          "checkin",
-                          "checkout"
-                      ],
-                      "additionalProperties": true,
-                      "properties": {
-                          "checkin": {
-                              "type": "string"
-                          },
-                          "checkout": {
-                              "type": "string"
-                          }
-                      }
-                  }
+    "bookings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["bookingDates"],
+        "additionalProperties": true,
+        "properties": {
+          "bookingDates": {
+            "type": "object",
+            "required": ["checkin", "checkout"],
+            "additionalProperties": true,
+            "properties": {
+              "checkin": {
+                "type": "string"
+              },
+              "checkout": {
+                "type": "string"
               }
+            }
           }
+        }
       }
+    }
   }
 }

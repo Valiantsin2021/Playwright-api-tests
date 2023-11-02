@@ -25,7 +25,7 @@ test.only('get booking summary with specific room ID', async ({ request }) => {
   const schemaX = z.object({
     bookings: z.string()
   })
-  // await expect.soft(schemaX.parse(body)).toThrow()
+  await expect.soft(schemaX.parse(body)).toThrow()
   console.log(JSON.stringify(body))
 })
 test("GET booking summary with specific room id that doesn't exist", async ({ request }) => {
@@ -97,7 +97,7 @@ test(`create the booking reservation`, async ({ request }) => {
   expect(body.booking.bookingdates).toStrictEqual(reqBody.bookingdates)
   bookingId = body.bookingid
 })
-test.skip("DELETE booking with an id that doesn't exist", async ({ request }) => {
+test("DELETE booking with an id that doesn't exist", async ({ request }) => {
   const response = await request.delete(`booking/${bookingId}`)
 
   expect(response).toHaveStatusCode(202)

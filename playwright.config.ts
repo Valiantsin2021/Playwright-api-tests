@@ -23,7 +23,7 @@ export default defineConfig({
     baseURL: process.env.URL,
     ignoreHTTPSErrors: true,
     extraHTTPHeaders: {
-      'cookie': `${process.env.COOKIES}`,
+      cookie: `${process.env.COOKIES}`
     },
     trace: 'on-first-retry'
   },
