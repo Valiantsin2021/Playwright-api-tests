@@ -25,7 +25,7 @@ export async function createHeaders(token?) {
     }
   } else {
     // Authenticate and get cookies
-    let cookies = await createCookies(username, password)
+    const cookies = await createCookies(username, password)
     requestHeaders = {
       cookie: cookies
     }
@@ -48,7 +48,7 @@ export async function createHeaders(token?) {
  * 
  */
 export async function createInvalidHeaders() {
-  let requestHeaders = {
+  const requestHeaders = {
     cookie: 'cookie=invalid'
   }
 

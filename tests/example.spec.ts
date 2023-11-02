@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { isValidDate } from '@myhelper/date'
 import { addWarning, createRandomBookingBody } from '@myhelper/helper'
-import schema from '@myhelper/schema.json'
+import schema from '@myhelper/schema.json' assert { type: 'json' }
 import playwrightApiMatchers from 'odottaa'
 expect.extend(playwrightApiMatchers)
 import chai from 'chai'
@@ -10,10 +10,24 @@ import chaiJsonSchema from 'chai-json-schema'
 import { z } from 'zod'
 chai.use(chaiJsonSchema)
 let bookingId
-test.only('get booking summary with specific room ID', async ({ request }) => {
-  await addWarning(`WARNING: test ${test.info().title} use double way of schema validation`)
+test(`log errors from console`, async ({ page }) => {
+  const messages = []
+  page.on('pageerror', exception => {
+    console.log(`Uncaught exception: "${exception}"`)
+  })
+  page.on('console', async m => {
+    messages.push({ [m.type()]: m.text() })
+    await expect.soft(m.type()).not.toEqual('error')
+  })
+  await page.goto('https://academybugs.com/')
+  console.table(messages)
+})
+test('get booking summary with specific room ID', async ({ request }, testInfo) => {
+  console.log(testInfo.config)
   const response = await request.get('/booking/summary?roomid=1')
+
   expect(response).toHaveStatusCode(200)
+
   const body = await response.json()
   expect(body.bookings.length).toBeGreaterThanOrEqual(1)
   expect(isValidDate(body.bookings[0].bookingDates.checkin)).toBeTruthy()
@@ -52,6 +66,7 @@ test('GET all bookings with details', async ({ request }) => {
   const response = await request.get('booking/')
 
   expect(response.status()).toBe(200)
+
   const body = await response.json()
   expect(body.bookings.length).toBeGreaterThanOrEqual(1)
   expect(body.bookings[0].bookingid).toBe(1)
@@ -66,6 +81,7 @@ test('GET booking by id with details', async ({ request }) => {
   const response = await request.get('booking/1')
 
   expect(response.status()).toBe(200)
+
   const body = await response.json()
   expect(body.bookingid).toBe(1)
   expect(body.roomid).toBe(1)
@@ -91,6 +107,7 @@ test(`create the booking reservation`, async ({ request }) => {
     data: reqBody
   })
   expect(response).toBeCreated()
+
   const body = await response.json()
   expect(body.booking.firstname).toBe(reqBody.firstname)
   expect(body.booking.lastname).toBe(reqBody.lastname)

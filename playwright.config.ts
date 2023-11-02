@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test'
 import 'dotenv/config'
 export default defineConfig({
+  timeout: 120_000,
   testDir: './tests',
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
